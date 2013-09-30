@@ -1,0 +1,7 @@
+name = CiviCRM Views Token
+description = Adds a token to include a view in a mailing
+core = 7.x
+package = CiviCRM
+version = 7.x-1.0-alpha1
+project = CiviCRM
+
