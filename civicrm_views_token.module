@@ -28,16 +28,19 @@ function civicrm_views_token_civicrm_tokenValues( &$values, &$contactIDs, $jobID
 
    foreach ($view_names as $view_name) {
      $view = views_get_view($view_name);
-     if($view) {
-       $args = array();
-       //$rendered[$view_name] = $view->preview('block', $args);
-       $rendered[$view_name] = views_embed_view($view_name);
+     //I think it may not be possible to hide admin links on default
+     $display_id = 'page';
+     $args = array();
+     if (!$view || !$view->access($display_id)) {
+      // relying on the view name being correct is a breaky point so we will just
+      // give an empy response
+      $rendered[$view_name] = NULL;
+      continue;
      }
-     else {
-       // relying on the view name being correct is a breaky point so we will just
-       // give an empy response
-       $rendered[$view_name] = NULL;
-     }
+     // doesn't appear to be working :-(  - want to hide edit, manage_display, view
+     $view->hide_admin_links = TRUE;
+     //$rendered[$view_name] = $view->preview('block', $args);
+     $rendered[$view_name] = $view->preview($display_id, $args);
      foreach ($contactIDs as $contactID) {
        $values[$contactID]['civicrm_views_tokens.view' . $view_name] = $rendered[$view_name];
        $values[$contactID]['civicrm_views_tokens.date_formatfull'] =  CRM_Utils_Date::customFormat(date('Y-m-d'), NULL, array('Y', 'm', 'd'));
