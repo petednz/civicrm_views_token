@@ -6,17 +6,24 @@ function civicrm_views_token_civicrm_tokens(&$tokens ) {
    $tokens['civicrm_views_tokens'] = array();
    foreach (_civicrm_views_token_get_views() as $view_name) {
      $tokens['civicrm_views_tokens']['civicrm_views_tokens.view' . $view_name] = 'Configured Drupal View ' . $view_name;
+     $tokens['civicrm_views_tokens']['civicrm_views_tokens.date_formatfull']  = 'Today\'s Date';
    }
 }
 
 /*
  * implementation of CiviCRM hook
  */
-function civicrm_views_token_civicrm_tokenValues( &$values, &$contactIDs, $jobID ) {
+function civicrm_views_token_civicrm_tokenValues( &$values, &$contactIDs, $jobID, $tokens = array(), $context = null ) {
    static $rendered;
    if($rendered) {
      return $rendered;
    }
+   if (empty($tokens['civicrm_views_tokens'])) {
+    //@todo enable this with some testing - appeared to not always be populated when
+    // it should be
+    //  return;
+   }
+
    $view_names = _civicrm_views_token_get_views();
 
    foreach ($view_names as $view_name) {
@@ -33,8 +40,10 @@ function civicrm_views_token_civicrm_tokenValues( &$values, &$contactIDs, $jobID
      }
      foreach ($contactIDs as $contactID) {
        $values[$contactID]['civicrm_views_tokens.view' . $view_name] = $rendered[$view_name];
+       $values[$contactID]['civicrm_views_tokens.date_formatfull'] =  CRM_Utils_Date::customFormat(date('Y-m-d'), NULL, array('Y', 'm', 'd'));
      }
    }
+
 }
 
 /**
