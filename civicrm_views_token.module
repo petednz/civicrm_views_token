@@ -30,8 +30,11 @@ function civicrm_views_token_civicrm_tokenValues( &$values, &$contactIDs, $jobID
      $view = views_get_view($view_name);
      if($view) {
        $args = array();
-       //$rendered[$view_name] = $view->preview('block', $args);
+       global $user;
+       $real_user = $user;
+       $user = user_load(0);
        $rendered[$view_name] = views_embed_view($view_name);
+       $user = $real_user;
      }
      else {
        // relying on the view name being correct is a breaky point so we will just
