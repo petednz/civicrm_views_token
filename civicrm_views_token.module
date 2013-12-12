@@ -38,9 +38,9 @@ function civicrm_views_token_civicrm_tokenValues( &$values, &$contactIDs, $jobID
        // Ensure all absolute paths are set to url paths
        // Anchor tags
        global $base_url, $base_path;
-       $rendered[$view_name] = preg_replace('<\s*a\s(.*?)href="\/(.*?)"(.*?)>', '<a $1href="' . $base_url . $base_path . '$2"$3>', $rendered[$view_name]);
+       $rendered[$view_name] = preg_replace('/<\s*a\s(.*?)href="\/(.*?)"(.*?)>/i', '<a $1href="' . $base_url . $base_path . '$2"$3>', $rendered[$view_name]);
        // Image tags
-       $rendered[$view_name] = preg_replace('<\s*img\s(.*?)src="\/(.*?)"(.*?)>', '<img $1src="' . $base_url . $base_path . '$2"$3>', $rendered[$view_name]);
+       $rendered[$view_name] = preg_replace('/<\s*img\s(.*?)src="\/(.*?)"(.*?)>/i', '<img $1src="' . $base_url . $base_path . '$2"$3>', $rendered[$view_name]);
 
        $user = $real_user;
      }
