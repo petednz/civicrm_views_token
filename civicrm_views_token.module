@@ -14,8 +14,15 @@ function civicrm_views_token_civicrm_tokens(&$tokens ) {
  * implementation of CiviCRM hook
  */
 function civicrm_views_token_civicrm_tokenValues( &$values, &$contactIDs, $jobID, $tokens = array(), $context = null ) {
-   static $rendered;
+  static $rendered;
+  $view_names = _civicrm_views_token_get_views();
    if($rendered) {
+     foreach ($contactIDs as $contactID) {
+       foreach ($view_names as $view_name) {
+         $values[$contactID]['civicrm_views_tokens.view' . $view_name] = $rendered[$view_name];
+         $values[$contactID]['civicrm_views_tokens.date_formatfull'] =  CRM_Utils_Date::customFormat(date('Y-m-d'), NULL, array('Y', 'm', 'd'));
+       }
+     }
      return $rendered;
    }
    if (empty($tokens['civicrm_views_tokens'])) {
