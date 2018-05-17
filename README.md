@@ -6,7 +6,7 @@ add a mailing token to include a view. (look for 'Configured Drupal View' in the
 Drupal views are made as available as a token in CiviMail & in pdf / emails
 
 NOTE - they do NOT work from the civimail test mailing which I think is a civimail
-but.
+bug.
 
 Two ways to select your view
 1) name it email (db name)
